@@ -4,6 +4,5 @@ class Solution:
         i = 0
         while len(res) < len(s) and i < len(words):
             res += words[i]
-            print(res)
             i += 1
         return res == s
