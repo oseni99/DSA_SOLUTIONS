@@ -1,7 +1,9 @@
 class Solution:
     def isPrefixString(self, s: str, words: List[str]) -> bool:
-        n = len(s)
-        new_words = "".join(words)
-        if new_words[0:n] == s:
-            return True
-        return False
+        res = ""
+        i = 0
+        while len(res) < len(s) and i < len(words):
+            res += words[i]
+            print(res)
+            i += 1
+        return res == s
