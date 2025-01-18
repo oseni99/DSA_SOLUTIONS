@@ -16,24 +16,27 @@ class Solution:
                     if total == new_target:
                         three_sum_res.append([arr[i], arr[l], arr[r]])
                         l += 1
-                        r -= 1
+                        r -= 1 
+
                         while l < r and arr[l] == arr[l - 1]:
                             l += 1
                         while l < r and arr[r] == arr[r + 1]:
                             r -= 1
-                    elif total < target:
+                    elif total < new_target:
                         l += 1
                     else:
                         r -= 1
             return three_sum_res
 
         total_res = []
-        for i in range(len(nums)):
-            if i > 0 and nums[i] == nums[i - 1]:
+        for i in range(len(new_nums)):
+            if i > 0 and new_nums[i] == new_nums[i - 1]:
                 continue
-            a = three_sum(nums[i + 1 :], target - nums[i])
+            # print(target - new_nums[i])
+            new_target = target - new_nums[i]
+            a = three_sum(new_nums[i + 1 :], new_target)
             for s in a:
                 if len(s) > 0:
-                    s.append(nums[i])
+                    s.append(new_nums[i])
                     total_res.append(s)
         return total_res
