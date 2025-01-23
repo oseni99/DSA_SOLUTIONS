@@ -1,13 +1,24 @@
 class Solution:
     def checkInclusion(self, s1: str, s2: str) -> bool:
-        if len(s2) < len(s1):
-            return false
+        if len(s1) > len(s2):
+            return False
+        # basically if i have a permutation i can just throw it inside that hashmap and start dynamicaly checking it 
+        a_hash = Counter(s1)
+        b_hash = {}
         l = 0
-        r = len(s1) - 1  
-        while r < len(s2):
-            print(s2[l:r+1])
-            if s2[l:r+1] == s1 or s2[l:r+1][::-1] == s1:
+        for r in range(len(s2)):
+            if s2[r] in b_hash:
+                b_hash[s2[r]] += 1
+            else:
+                b_hash[s2[r]] = 1
+
+            if r - l + 1 > len(s1):
+                if b_hash[s2[l]] == 1:
+                    del b_hash[s2[l]]
+                else:
+                    b_hash[s2[l]] -= 1
+                l += 1
+
+            if a_hash == b_hash:
                 return True
-            l += 1
-            r += 1
         return False
