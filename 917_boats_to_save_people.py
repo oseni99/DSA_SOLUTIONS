@@ -1,20 +1,15 @@
 class Solution:
     def numRescueBoats(self, people: List[int], limit: int) -> int:
+        # its like if the smallest person and that max person can fit a boat of max two people then its good to go
         people.sort()
-        res = []
-        curr_res = []
-        for i in range(len(people)):
-            if len(curr_res) > 0:
-                rem_capacity = limit - sum(curr_res)
-            else:
-                rem_capacity = limit
-
-            if people[i] <= rem_capacity:
-                curr_res.append(people[i])
-            else:
-                res.append(curr_res)
-                curr_res = [people[i]]
-        if curr_res:
-            res.append(curr_res)
-        print(res)
-        return len(res)
+        l = 0
+        r = len(people) - 1
+        boats = 0
+        while l <= r:
+            if people[l] + people[r] <= limit:
+                l += 1
+            # the boats will take someone regardless
+            # the right will move anytime also as the heaviest can be inside a boat
+            boats += 1
+            r -= 1
+        return boats
