@@ -1,27 +1,14 @@
 class Solution:
     def calPoints(self, operations: List[str]) -> int:
-        res = 0
-        records = {
-            "+": 1,
-            "D": 2,
-            "C": 3,
-        }
         stack = []
         for i in operations:
-            if i not in records.keys():
-                res += int(i)
+            if i not in {"D", "+", "C"}:
                 stack.append(int(i))
-                print(stack)
             else:
                 if i == "+":
-                    curr = stack[-1] + stack[-2]
-                    res += curr
-                    stack.append(curr)
+                    stack.append(stack[-1] + stack[-2])
                 if i == "D":
-                    curr = stack[-1] * 2
-                    res += curr
-                    stack.append(curr)
+                    stack.append(stack[-1] * 2)
                 if i == "C":
-                    curr = stack.pop()
-                    res -= curr
-        return res
+                    stack.pop()
+        return sum(stack)
