@@ -1,12 +1,13 @@
 class Solution:
     def nextGreaterElements(self, nums: List[int]) -> List[int]:
-        new_nums = nums * 2
-        # find the next greater on this
-        res = [-1] * len(new_nums)
+        # when im dealing with something circular using modulus to circle back
+        n = len(nums)
+        res = [-1] * n
         stack = []
-        for i in range(len(new_nums)):
-            while stack and new_nums[stack[-1]] < new_nums[i]:
+        for i in range(2 * n):
+            while stack and nums[stack[-1]] < nums[i % n]:
                 idx = stack.pop()
-                res[idx] = new_nums[i]
-            stack.append(i)
-        return res[: len(nums)]
+                res[idx] = nums[i % n]
+            if i < n:
+                stack.append(i)
+        return res
