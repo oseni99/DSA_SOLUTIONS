@@ -15,4 +15,4 @@ class Solution:
                     my_stack.append(b * a)
                 if r == "/":
                     my_stack.append(int( b / a))
-        return my_stack[0]
+        return my_stack.pop()
