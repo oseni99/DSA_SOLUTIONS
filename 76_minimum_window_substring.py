@@ -3,12 +3,13 @@ class Solution:
         # this is the base case
         if len(t) > len(s):
             return ""
+
         #  im still thinking throw it into a hashmap after each slide
         #  check if t is in there
         # turn it into a list
         new_s, new_t = list(s), list(t)
         n = len(new_t)
-        res = s
+        res = None
         l, r = 0, n
 
         # define the helper function to check it in a hashmap
@@ -18,14 +19,17 @@ class Solution:
                     return False
             return True
 
-        while r < len(new_s):
+        while r <= len(new_s):
             # throw it inside the hashmap
             a = Counter(new_s[l : r + 1])
+            print(a)
             if checker(a):
                 c = "".join(new_s[l : r + 1])
-                res = min(c,res,key=len)
-                l += n 
+                res = c if res is None else min(c, res, key=len)
+                l += n
                 r = l + n
             else:
                 r += 1
+        if not res:
+            return ""
         return res
