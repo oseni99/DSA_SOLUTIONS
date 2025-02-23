@@ -36,10 +36,8 @@ class Solution:
         # i know that if i my smallest is smaller than right starughtaway then its not rotated
         if nums[l] < nums[r]:
             return binary_search(nums, l, r)
-
-        if nums[pivot_idx] == target:
-            return pivot_idx
-        elif nums[pivot_idx] < target:
+        # what i now use to check where to do the bs is if its greater or equal to the first one or it isnt 
+        if target >= nums[0]:
             return binary_search(nums, l=0, r=pivot_idx - 1)
         else:
-            return binary_search(nums, l=pivot_idx, r=len(nums))
+            return binary_search(nums, l=pivot_idx, r=len(nums) - 1)
