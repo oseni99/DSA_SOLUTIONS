@@ -19,7 +19,7 @@ class Solution:
         # if pivot is greater than number then its left side else right side
         # this allows us to know where to run the binary search in
 
-        def binary_search(arr, l, r):
+        def binary_search(l, r):
             while l <= r:
                 m = (l + r) // 2
                 if nums[m] == target:
@@ -34,10 +34,10 @@ class Solution:
         l = 0
         r = len(nums) - 1
         # i know that if i my smallest is smaller than right starughtaway then its not rotated
-        if nums[l] < nums[r]:
-            return binary_search(nums, l, r)
-        # what i now use to check where to do the bs is if its greater or equal to the first one or it isnt 
+        if nums[l] <= nums[r]:
+            return binary_search(l, r)
+        # what i now use to check where to do the bs is if its greater or equal to the first one or it isnt
         if target >= nums[0]:
-            return binary_search(nums, l=0, r=pivot_idx - 1)
+            return binary_search(l=0, r=pivot_idx - 1)
         else:
-            return binary_search(nums, l=pivot_idx, r=len(nums) - 1)
+            return binary_search(l=pivot_idx, r=len(nums) - 1)
