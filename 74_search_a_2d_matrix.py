@@ -9,11 +9,7 @@ class Solution:
             m = l + (r - l) // 2
             # the last element > target but it may still not even be in the second one
             #  imagine target 6 and last is 3 and next row beginning is 7 so it should go back
-            if matrix[m][-1] < target:
-                l = m + 1
-            elif matrix[m][0] > target:
-                r = m - 1
-            else:
+            if matrix[m][0] <= target <= matrix[m][-1]:
                 #  this is when i see it and i get the row
                 #  i do the binary search on that row
                 row = matrix[m]
@@ -28,4 +24,8 @@ class Solution:
                     else:
                         right = mid - 1
                 return False
+            elif target < matrix[m][0]: # move up 
+                r = m - 1
+            else: # move down 
+                l = m + 1 
         return False
