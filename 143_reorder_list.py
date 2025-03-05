@@ -8,21 +8,32 @@ class Solution:
         """
         Do not return anything, modify head in-place instead.
         """
-        # add a reference to the nodes inside a list
-        # use two pointer on it
-        # modify the pointers
-        nodes = []
-        curr = head
+        # the optimal way is to find the middle 
+        # reverse that middle which is the 2nd part 
+        # after that then swap it and change pointers 
+        slow = head
+        fast = head 
+        while fast and fast.next:
+            slow = slow.next 
+            fast = fast.next.next 
+        
+        # at here slow is the middle 
+        #reverse it 
+        prev = None 
+        curr = slow.next
+        slow.next = None # this disconnects the first half to the second half 
         while curr:
-            nodes.append(curr)
-            curr = curr.next
-        l = 0
-        r = len(nodes) - 1
-        while l < r:
-            nodes[l].next = nodes[r]
-            l += 1
-            if l < r: # this will check if its not the same and l and r dont cross 
-                nodes[r].next = nodes[l]
-                r -= 1
-        # this will ensure that the last node points to None
-        nodes[l].next = None
+            temp = curr.next
+            curr.next = prev 
+            prev = curr 
+            curr = temp 
+
+        # once thats done i just have to swap the pointers 
+        first = head 
+        second = prev 
+        while second:
+            temp1 = first.next 
+            temp2 = second.next 
+            first.next = second 
+            second.next = temp1
+            first,second =  temp1, temp2
