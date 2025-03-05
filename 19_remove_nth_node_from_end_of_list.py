@@ -5,20 +5,16 @@
 #         self.next = next
 class Solution:
     def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
-        # i think it makes sense for me to find the length of the linked list 
-        count = 0 
-        curr = head 
-        while curr:
-            count += 1 
-            curr = curr.next 
-        check = count - n
-        if check == 0:
-            return head.next
-        i = 1 
-        curr = head 
-        while curr:
-            if check == i:
-                curr.next = curr.next.next
-            i += 1 
-            curr = curr.next 
-        return head
+        # i can make use of a way of two pointers also to get it
+        dummy = ListNode(0, head)
+        first = dummy
+        second = dummy
+        for i in range(n + 1):
+            # this will allow it to get to whats next before it
+            first = first.next
+        # when thats done with that i move that second loop with the first one
+        while first:
+            first = first.next
+            second = second.next
+        second.next = second.next.next
+        return dummy.next
