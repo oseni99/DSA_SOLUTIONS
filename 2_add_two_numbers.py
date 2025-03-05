@@ -11,17 +11,13 @@ class Solution:
         # so two pointers to check
         dummy = ListNode(0)
         curr = dummy
-        overs = None
+        overs = 0
         while l1 and l2:
             res = l1.val + l2.val
             if overs:
                 res += overs
-            if res < 10:
-                curr.next = ListNode(res)
-            else:
-                new_res = str(res)
-                overs = 1
-                curr.next = ListNode(int(new_res[-1]))
+            overs = res // 10
+            curr.next = ListNode(res % 10)
             curr = curr.next
             l1 = l1.next
             l2 = l2.next
@@ -30,24 +26,19 @@ class Solution:
             res = l1.val
             if overs:
                 res += overs
-            if res < 10:
-                curr.next = ListNode(res)
-            else:
-                new_res = str(res)
-                overs = 1
-                curr.next = ListNode(int(new_res[-1]))
+            overs = res // 10
+            curr.next = ListNode(res % 10)
             l1 = l1.next
             curr = curr.next
         while l2:
             res = l2.val
             if overs:
                 res += overs
-            if res < 10:
-                curr.next = ListNode(res)
-            else:
-                new_res = str(res)
-                overs = 1
-                curr.next = ListNode(int(new_res[-1]))
+            overs = res // 10
+            curr.next = ListNode(res % 10)
             l2 = l2.next
             curr = curr.next
+        # this will check if theres any overs added left 
+        if overs:
+            curr.next = ListNode(overs)
         return dummy.next
