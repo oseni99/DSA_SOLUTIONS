@@ -6,8 +6,18 @@
 #         self.right = right
 class Solution:
     def maxDepth(self, root: Optional[TreeNode]) -> int:
-        # the max depth is basically just getting the max when it goes either left or right + 1
+        #  it can also be solved using bfs
         if not root:
             return 0
-        #  it is a recursive function
-        return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
+        queue = deque([(root, 1)])
+        max_depth = 0
+        # the bfs
+        while queue:
+            curr, depth = queue.popleft()
+            max_depth = max(max_depth, depth)
+            # now going to the left and right and increase the depth by 1
+            if curr.left:
+                queue.append([curr.left, depth + 1])
+            if curr.right:
+                queue.append([curr.right, depth + 1])
+        return max_depth
