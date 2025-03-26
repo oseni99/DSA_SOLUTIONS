@@ -14,6 +14,10 @@ class Solution:
             left_depth = dfs(root.left)
             right_depth = dfs(root.right)
 
+            # i also have to check at the left and the right
+            if left_depth == -1 or right_depth == -1:
+                return -1
+
             # check the diff
             if abs(left_depth - right_depth) > 1:
                 return -1
