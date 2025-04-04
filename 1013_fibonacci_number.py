@@ -1,6 +1,6 @@
 class Solution:
     def fib(self, n: int) -> int:
-        # just used dp bottm to top test 
+        # just used dp bottm to top tes 
         dp = [0, 1]
         if n < 2:
             return n
