@@ -1,5 +1,3 @@
-# LRU Cache requires you to keep track of double linked lists so it helps with O(1) insertion & deletion
-# create the double linked list class
 class Node:
     def __init__(self, key, val):
         self.key = key
@@ -9,48 +7,49 @@ class Node:
 
 
 class LRUCache:
+
     def __init__(self, capacity: int):
         self.cache = {}
         self.capacity = capacity
-
         self.left = self.right = Node(0, 0)
         self.left.next = self.right
         self.right.prev = self.left
 
-    def insert(self, node):
-        # adding at left removig at right
-        prev = self.right.prev
-        nxt_node = self.right
-        prev.next = node
-        node.prev = prev
-        node.next = nxt_node
-        nxt_node.prev = node
-
     def remove(self, node):
-        # get the previous and next
-        prev = node.prev
+        # i want to remove it  just breaking the link
+        prev_node = node.prev
         nxt_node = node.next
-        prev.next = nxt_node
-        nxt_node.prev = prev
+        prev_node.next = nxt_node
+        nxt_node.prev = prev_node
+
+    def insert(self, node):
+        prev_node = self.right.prev
+        prev_node.next = node
+        node.prev = prev_node
+        node.next = self.right
+        self.right.prev = node
 
     def get(self, key: int) -> int:
         if key in self.cache:
-            self.remove(self.cache[key])
-            self.insert(self.cache[key])
-            return self.cache[key].val
+            node = self.cache[key]
+            self.remove(node)
+            self.insert(node)
+            return node.val
         return -1
 
     def put(self, key: int, value: int) -> None:
         if key in self.cache:
+            # remove the old one first since it exists
             self.remove(self.cache[key])
-        self.cache[key] = Node(key, value)
-        self.insert(self.cache[key])
+        new_node = Node(key, value)
+        self.cache[key] = new_node
+        self.insert(new_node)
 
-        #  where i check if the cache is more than the limit
+        # if > capacity we remove the least recently used
         if len(self.cache) > self.capacity:
             lru_node = self.left.next
             self.remove(lru_node)
-            del self.cache[lru_node.key]
+            del self.cache[lru_node.key]  # remove it from the cache also
 
 
 # Your LRUCache object will be instantiated and called as such:
