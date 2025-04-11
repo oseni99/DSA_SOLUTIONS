@@ -6,22 +6,18 @@
 #         self.right = right
 class Solution:
     def removeLeafNodes(
-        self, root: Optional[TreeNode], target: int
-    ) -> Optional[TreeNode]:
-        #  what im thinking is i go through my tree and once i see that theres no more node
-        # i check if its target and if its target i delete it
-        # its only going to be like one node which is one case
-        # a dfs
-        if not root:
-            return None
+        self, root: Optional[TreeNode], target: int) -> Optional[TreeNode]:
+        # find the target and this makes sense to do using the post order
+        # we visit the child before the parent as thats the best way 
 
-        # i now recursively call it for both left and right
-        # to delete a leaf node we use a post order traversal
-        # find the parent since its left right root we visit child before parent 
-        root.left = self.removeLeafNodes(root.left, target)
-        root.right = self.removeLeafNodes(root.right, target)
+        def dfs(root):
+            if not root:
+                return None
+            root.left = dfs(root.left)
+            root.right = dfs(root.right)
+            if root.val == target and not root.left and not root.right:
+                return None
 
-        if not root.left and not root.right and root.val == target:
-            # if no one i just delete that node
-            return None
-        return root
+            return root
+
+        return dfs(root)
