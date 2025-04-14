@@ -1,28 +1,26 @@
 class Solution:
     def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:
-        # we have to use dfs with backtracking here
-        #  i know that i cannot use a single number twice
-        candidates.sort()
-        res = []
+        # to avoid duplicates if we need to sort it so its clos to each other
+        # dfs with a backtrack
 
-        def dfs(idx, subsets, curr_sum):
+        res = []
+        candidates.sort()
+
+        def dfs(i, path, curr_sum):
             if curr_sum == target:
-                res.append(subsets.copy())
+                res.append(path.copy())
                 return
             if curr_sum > target:
                 return
 
-            # i now go through it, can add one or ignore it
-            for i in range(idx, len(candidates)):
-                # skip that duplicates 
-                if i > idx and candidates[i] == candidates[i-1]:
+            for j in range(i, len(candidates)):
+                if j > i and candidates[j] == candidates[j - 1]:
                     continue
-                # add that candidates
-                subsets.append(candidates[i])
-                # recursive
-                dfs(i + 1, subsets, curr_sum + candidates[i])
-                # when this is done
-                subsets.pop()
+                path.append(candidates[j])
+                curr_sum += candidates[j]
+                dfs(j + 1, path, curr_sum)
+                path.pop()
+                curr_sum -= candidates[j]
 
         dfs(0, [], 0)
         return res
