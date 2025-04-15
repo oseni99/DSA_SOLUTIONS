@@ -1,15 +1,16 @@
 class Solution:
     def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:
+        # each number used only once
         res = []
         nums.sort()
 
-        def dfs(idx, path):
+        def dfs(i, path):
             res.append(path.copy())
-            for i in range(idx, len(nums)):
-                if i > idx and nums[i] == nums[i - 1]:
+            for j in range(i, len(nums)):
+                if j > i and nums[j] == nums[j - 1]:
                     continue
-                path.append(nums[i])
-                dfs(i + 1, path)
+                path.append(nums[j])
+                dfs(j + 1, path)
                 path.pop()
 
         dfs(0, [])
