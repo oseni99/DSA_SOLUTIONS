@@ -1,9 +1,10 @@
 class Solution:
     def partition(self, s: str) -> List[List[str]]:
+        # i try each of those substrings and i check if its still substring palindrome
+        # thats when i still even continue to check it
 
-        # its a backtracking with dfs
         res = []
-        sub_parts = []
+        subs = []
 
         def is_palindrome(s, l, r):
             while l <= r:
@@ -13,17 +14,16 @@ class Solution:
                 r -= 1
             return True
 
-        def dfs(idx):
-            # base case when the index is at the end
-            if idx >= len(s):
-                res.append(sub_parts.copy())
+        def dfs(i):
+            # base case
+            if i >= len(s):
+                res.append(subs.copy())
                 return
-
-            for i in range(idx, len(s)):
-                if is_palindrome(s, idx, i):
-                    sub_parts.append(s[idx : i + 1])
-                    dfs(i + 1)
-                    sub_parts.pop()
+            for j in range(i, len(s)):
+                if is_palindrome(s, i, j):
+                    subs.append(s[i : j + 1])
+                    dfs(j + 1)
+                    subs.pop()
 
         dfs(0)
         return res
