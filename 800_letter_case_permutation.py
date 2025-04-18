@@ -4,19 +4,18 @@ class Solution:
 
         res = []
 
-        def dfs(i, path, used):
+        def dfs(i, path):
             # base case
             if len(path) == len(s):
-                if path not in used:
-                    res.append(path)
-                    used.add(path)
+                res.append(path)
 
             for j in range(i, len(s)):
-                letter = s[j]
-                if letter.isalpha():
-                    new = letter.upper()
-                    dfs(j + 1, path + new, used)
-                dfs(j + 1, path + letter, used)
+                # so basically im just checking if its an alphabet so i try both the upper and lower
+                if s[j].isalpha():
+                    dfs(j + 1, path + s[j].upper())
+                    dfs(j + 1, path + s[j].lower())
+                else:
+                    dfs(j + 1, path + s[j])
 
-        dfs(0, "", set())
+        dfs(0, "")
         return res
