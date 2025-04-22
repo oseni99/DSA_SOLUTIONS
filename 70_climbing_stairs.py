@@ -1,19 +1,15 @@
 class Solution:
     def climbStairs(self, n: int) -> int:
-        # this looks like a case of backtracking or so to me
-        # you can only make 2 choices at one point
+        # backtracking with recursion will TLE
+        # dp with memoization/bottom down dp
 
-        self.res = 0
+        if n <= 1:
+            return 1
+        dp = [1, 1]
 
-        def dfs(i):
-            # base case
-            if i == n:
-                self.res += 1
-                return
-            if i > n:
-                return
-            dfs(i + 1)
-            dfs(i + 2)
-
-        dfs(0)
-        return self.res
+        # we just need the two previous
+        for _ in range(2, n + 1):
+            tmp = dp[1]
+            dp[1] = dp[0] + dp[1]
+            dp[0] = tmp
+        return dp[1]
