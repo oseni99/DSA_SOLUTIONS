@@ -1,71 +1,64 @@
 class Node:
-    def __init__(self,val,prev=None,next=None):
-        self.val = val 
-        self.prev = prev
-        self.next = next 
+    def __init__(self, val=0, next=None, prev=None):
+        self.val = val
+        self.prev = prev 
+        self.next = next
 
 class MyCircularQueue:
 
     def __init__(self, k: int):
-        # im thinking of using a double linked list 
-        # i now get the head and the tail 
-        # i have a count pos to keep track of k anytime i add a node 
-        self.k = k 
-        self.size = 0 
-        self.head = None 
-        self.tail = None 
+        self.k = k
+        self.size = 0
+        self.head = Node()
+        self.tail = Node()
 
     def enQueue(self, value: int) -> bool:
         if self.isFull():
-            return False 
-        newNode = Node(value)
+            return False
+        my_node = Node(value)
         if self.isEmpty():
-            self.head = newNode
-            self.tail = newNode
-            self.head.prev = self.tail 
-            self.head.next = self.tail 
-            self.tail.prev = self.head 
-            self.tail.next = self.head 
+            self.head.next = my_node
+            my_node.prev = self.head
+            my_node.next = self.tail
+            self.tail.prev = my_node
         else:
-            self.tail.next = newNode
-            newNode.prev = self.tail 
-            newNode.next = self.head # this is because it is circular so it goes back to head 
-            self.head.prev = newNode
-            self.tail = newNode
-        self.size += 1 
-        return True 
+            tmp = self.tail.prev
+            self.tail.prev = my_node
+            tmp.next = my_node
+            my_node.prev = tmp
+            my_node.next = self.tail
+        self.size += 1
+        return True
 
     def deQueue(self) -> bool:
         if self.isEmpty():
             return False
-        if self.size == 1:
-            self.head = None 
-            self.tail = None 
         else:
-            self.head = self.head.next 
-            self.head.prev = self.tail 
-            self.tail.next = self.head # this is because it is circular 
-        self.size -= 1 
-        return True 
+            # FIFO which means remove at head
+            tmp = self.head.next
+            frr = tmp.next
+            self.head.next = frr
+            frr.prev = self.head
+            self.size -= 1
+            return True
 
     def Front(self) -> int:
         if self.isEmpty():
-            return -1 
-        return self.head.val
+            return -1
+        else:
+            return self.head.next.val
 
     def Rear(self) -> int:
         if self.isEmpty():
-            return -1 
-        return self.tail.val  
+            return -1
+        else:
+            return self.tail.prev.val
 
     def isEmpty(self) -> bool:
-        if self.size == 0:
-            return True 
-        return False
+        return self.size == 0
 
     def isFull(self) -> bool:
-        return self.size == self.k 
-        
+        return self.size == self.k
 
 
 # Your MyCircularQueue object will be instantiated and called as such:
